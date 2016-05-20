@@ -15,7 +15,7 @@ namespace ClipM
         private static class NativeMethods
         {
             /// <summary>
-            /// Places teh given window in the system-maintained clipboard format listerner list
+            /// Places the given window in the system-maintained clipboard format listerner list
             /// </summary>
             [DllImport("user32.dll", SetLastError = true)]
             [return: MarshalAs(UnmanagedType.Bool)]
@@ -27,6 +27,13 @@ namespace ClipM
             [DllImport("user32.dll", SetLastError = true)]
             [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool RemoveClipboardFormatListener(IntPtr hwnd);
+
+            /// <summary>
+            /// Retrieves the clipboard sequence number for the current window station.
+            /// </summary>
+            /// <returns></returns>
+            [DllImport("user32.dll", SetLastError = true)]
+            public static extern uint GetClipboardSequenceNumber();
 
             /// <summary>
             /// Send when the contents of the clipboard have changed
@@ -51,7 +58,7 @@ namespace ClipM
         {
             if(msg == NativeMethods.WM_CLIPBOARDUPDATE)
             {
-                ClipboardContentChanged?.Invoke(this, EventArgs.Empty);
+                ClipboardContentChanged?.Invoke(this, new ClipboardChangedEventArgs(NativeMethods.GetClipboardSequenceNumber()));
             }
 
             return IntPtr.Zero;
@@ -60,7 +67,7 @@ namespace ClipM
         /// <summary>
         /// Occurs when the clipboard content changes
         /// </summary>
-        public event EventHandler ClipboardContentChanged;
+        public event EventHandler<ClipboardChangedEventArgs> ClipboardContentChanged;
 
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
@@ -91,5 +98,14 @@ namespace ClipM
             Dispose(true);
         }
         #endregion
+    }
+
+    public class ClipboardChangedEventArgs : EventArgs
+    {
+        public uint seqNo { get; set; }
+        public ClipboardChangedEventArgs(uint seqNo)
+        {
+            this.seqNo = seqNo;
+        }
     }
 }

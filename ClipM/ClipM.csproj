@@ -52,17 +52,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClipboardMonitor.cs" />
+    <Compile Include="ClipItemList.cs" />
     <Compile Include="ClipMApplicationContext.cs" />
-    <Compile Include="Config.cs">
+    <Compile Include="ConfigForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Config.Designer.cs">
-      <DependentUpon>Config.cs</DependentUpon>
+    <Compile Include="ConfigForm.Designer.cs">
+      <DependentUpon>ConfigForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ClipListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClipListForm.Designer.cs">
+      <DependentUpon>ClipListForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OrderedSet.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Config.resx">
-      <DependentUpon>Config.cs</DependentUpon>
+    <EmbeddedResource Include="ClipListForm.resx">
+      <DependentUpon>ClipListForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigForm.resx">
+      <DependentUpon>ConfigForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -74,6 +85,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="Properties\DataSources\ClipMApplicationContext.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
