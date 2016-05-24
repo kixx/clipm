@@ -84,5 +84,13 @@ namespace ClipM
             m_Dictionary.Add(item, node);
             return true;
         }
+
+        public bool Insert(T item)
+        {
+            if (m_Dictionary.ContainsKey(item)) return false;
+            LinkedListNode<T> node = m_LinkedList.AddFirst(item);
+            m_Dictionary.Add(item, node);
+            return true;
+        }
     }
 }
