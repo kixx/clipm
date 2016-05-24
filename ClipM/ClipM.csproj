@@ -52,7 +52,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClipboardMonitor.cs" />
-    <Compile Include="ClipItemList.cs" />
     <Compile Include="ClipMApplicationContext.cs" />
     <Compile Include="ConfigForm.cs">
       <SubType>Form</SubType>
