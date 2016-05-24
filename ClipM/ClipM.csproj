@@ -65,6 +65,7 @@
     <Compile Include="ClipListForm.Designer.cs">
       <DependentUpon>ClipListForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="BindingOrderedSet.cs" />
     <Compile Include="OrderedSet.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
