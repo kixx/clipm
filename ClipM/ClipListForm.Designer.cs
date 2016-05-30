@@ -41,6 +41,7 @@
             this.lbClipItems.Size = new System.Drawing.Size(284, 262);
             this.lbClipItems.TabIndex = 0;
             this.lbClipItems.Click += new System.EventHandler(this.clipListBox_Click);
+            this.lbClipItems.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.lbClipItems_KeyPress);
             // 
             // ClipListForm
             // 
@@ -50,7 +51,7 @@
             this.ControlBox = false;
             this.Controls.Add(this.lbClipItems);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Name = "ClipList";
+            this.Name = "ClipListForm";
             this.ResumeLayout(false);
 
         }

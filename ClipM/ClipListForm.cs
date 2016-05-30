@@ -12,14 +12,18 @@ namespace ClipM
 {
     public partial class ClipListForm : Form
     {
+
+        private BindingOrderedSet<string> clipList;
+
         public ClipListForm()
         {
             InitializeComponent();
         }
 
-        public void SetBinding(BindingList<string> items)
+        public void SetBinding(BindingOrderedSet<string> clipList)
         {
-            lbClipItems.DataSource = items;
+            this.clipList = clipList;
+            lbClipItems.DataSource = clipList.getBindingList();
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -36,9 +40,35 @@ namespace ClipM
         {
             if(sender is ListBox) { 
                 ListBox lb = (ListBox) sender;
-                string selectedItem = lb.GetItemText(lb.SelectedItem);
-                Clipboard.SetText(selectedItem);
+                selectOrAddItemFromClipList(lb);
             }
         }
+
+
+        private void lbClipItems_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(sender is ListBox)
+            {
+                ListBox lb = (ListBox)sender;
+                if(e.KeyChar == (char)Keys.Return)
+                {
+                    selectOrAddItemFromClipList(lb);
+                }
+            }
+        }
+
+        private void selectOrAddItemFromClipList(ListBox list)
+        {
+            string selectedItem = list.GetItemText(list.SelectedItem);
+            if (selectedItem != "")
+            {
+                clipList.Remove(selectedItem);
+                clipList.Insert(selectedItem);
+                list.SetSelected(0, true);
+                Clipboard.SetText(selectedItem);
+            }
+
+        }
+
     }
 }

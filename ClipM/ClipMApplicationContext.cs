@@ -12,14 +12,13 @@ namespace ClipM
     class ClipMApplicationContext: ApplicationContext
     {
         static TraceSource _trace = new TraceSource("ClipM");
-
         private ConfigForm configWindow;
         private ClipListForm clipListWindow;
 
         private NotifyIcon notifyIcon;
         private ClipboardMonitor monitor;
 
-        private BindingList<string> clipList { get; }
+        private BindingOrderedSet<string> clipList { get; }
 
         public ClipMApplicationContext() {
 
@@ -35,9 +34,10 @@ namespace ClipM
             { listMenuItem, configMenuItem, exitMenuItem });
             notifyIcon.Visible = true;
 
-            this.clipList = new BindingList<string>();
+            this.clipList = new BindingOrderedSet<string>();
             this.monitor = new ClipboardMonitor();
             this.monitor.ClipboardContentChanged += Monitor_ClipboardContentChanged;
+            this.monitor.HotKeyPressed += Monitor_HotKeyPressed;
 
             this.configWindow = new ConfigForm();
             this.clipListWindow = new ClipListForm();
@@ -49,15 +49,34 @@ namespace ClipM
             _trace.Switch.Level = SourceLevels.All;
         }
 
-
         private void Monitor_ClipboardContentChanged(object sender, ClipboardChangedEventArgs e)
         {
-            if(Clipboard.ContainsText()) {
+            if (Clipboard.ContainsText())
+            {
                 String clipContent = Clipboard.GetText();
-                _trace.TraceEvent(TraceEventType.Information, 2000, "Clipboard changed seq {0}, content '{1}'", e.seqNo, clipContent);
-                clipList.Add(clipContent);
-
+                if (clipContent != "")
+                {
+                    _trace.TraceEvent(TraceEventType.Information, 2000, "Clipboard changed seq {0}, content '{1}'", e.seqNo, clipContent);
+                    if (clipList.Contains(clipContent))
+                    {
+                        clipList.Remove(clipContent);
+                    }
+                    clipList.Insert(clipContent);
+                }
             }
+        }
+
+        private void Monitor_HotKeyPressed(object sender, EventArgs e)
+        {
+            if(clipListWindow.Visible)
+            {
+                clipListWindow.Activate();
+            }
+            else
+            {
+                clipListWindow.ShowDialog();
+            }
+
         }
 
         private void ToggleList(object sender, EventArgs e)
