@@ -41,6 +41,7 @@ namespace ClipM
             if(sender is ListBox) { 
                 ListBox lb = (ListBox) sender;
                 selectOrAddItemFromClipList(lb);
+                this.Hide();
             }
         }
 
