@@ -53,6 +53,7 @@ namespace ClipM
                 if(e.KeyChar == (char)Keys.Return)
                 {
                     selectOrAddItemFromClipList(lb);
+                    this.Hide();
                 }
             }
         }
